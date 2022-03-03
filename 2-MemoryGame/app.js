@@ -31,5 +31,17 @@ cardArray.sort(() => 0.5 - Math.random());
 
 const gridDisplay = document.querySelector("#grid");
 
+// function to create the board game
+function createBoard() {
+  for (let i = 0; i < 10; i++) {
+    const card = document.createElement("img");
+    card.setAttribute("src", "img/blank.png");
+    card.setAttribute("data-id", i);
+    gridDisplay.appendChild(card);
+  }
+}
+
+createBoard();
+
 console.log(cardArray);
 console.log(gridDisplay);
