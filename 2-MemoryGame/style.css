@@ -1,0 +1,8 @@
+#grid {
+  margin: 0 auto;
+  width: 400px;
+  height: 300px;
+  display: flex;
+  flex-wrap: wrap;
+  border: 4px solid #660033;
+}
