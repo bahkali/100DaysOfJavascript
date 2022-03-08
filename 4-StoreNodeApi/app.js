@@ -3,6 +3,8 @@ const express = require("express");
 const path = require("path");
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
+//routes
+const productRoute = require("./route/productRoute");
 
 const app = express();
 const dbUri = process.env.DB_URI;
@@ -16,9 +18,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 //Routes
-app.use("/", (req, res) => {
-  res.send("Index msg...");
-});
+app.use("/product", productRoute);
 
 // Listen
 const PORT = 4500 || process.env.PORT;
