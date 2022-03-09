@@ -1,0 +1,62 @@
+[
+  {
+    "name": "Tadio Fawdery",
+    "price": 1,
+    "company": "ikea",
+    "rating": 3.9
+  },
+  {
+    "name": "Charisse O'Hern",
+    "price": 2,
+    "company": "liddy",
+    "rating": 4.0
+  },
+  {
+    "name": "Mikey Day",
+    "price": 3,
+    "company": "liddy",
+    "rating": 1.0
+  },
+  {
+    "name": "Angelia Newns",
+    "price": 4,
+    "company": "liddy",
+    "rating": 4.5
+  },
+  {
+    "name": "Samson Wilding",
+    "price": 5,
+    "company": "ikea",
+    "rating": 3.2
+  },
+  {
+    "name": "Daron Doveston",
+    "price": 6,
+    "company": "macros",
+    "rating": 4.9
+  },
+  {
+    "name": "Rhoda Chilvers",
+    "price": 7,
+    "company": "macros",
+    "rating": 1.4
+  },
+  {
+    "name": "Timotheus Fairholme",
+    "price": 8,
+    "company": "caressa",
+    "rating": 4.3
+  },
+  {
+    "name": "Maurise Goodbarne",
+    "price": 9,
+    "company": "macros",
+    "rating": 3.5
+  },
+  {
+    "name": "Diarmid Kille",
+    "price": 10,
+    "company": "ikea",
+    "rating": 2.9
+  }
+]
