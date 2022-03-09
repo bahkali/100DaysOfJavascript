@@ -5,8 +5,8 @@ import { routes } from "./src/routes/crmRoutes";
 require("dotenv").config();
 
 const app = express();
-const PORT = process.env.PORT || 3000;
-const DB_URI = process.env.DB_URI || " ";
+const PORT: number = 3000;
+const DB_URI: string = process.env.DB_URI || " ";
 
 // mongoose connection
 mongoose.connect(DB_URI).then((result) => {
