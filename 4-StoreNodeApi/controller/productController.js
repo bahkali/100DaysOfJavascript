@@ -3,7 +3,8 @@ const Product = require("../model/productModel");
 // Get all products
 const getProducts = async (req, res) => {
   try {
-    res.status(200).json("All Products");
+    const products = await Product.find({});
+    res.status(200).json({ products });
   } catch (error) {
     res.status(500).json({ msg: error });
   }
@@ -11,7 +12,9 @@ const getProducts = async (req, res) => {
 // Get a product
 const getProduct = async (req, res) => {
   try {
-    res.status(200).json("One Products");
+    const { id: id } = req.params;
+    const product = await Product.findById({ _id: id });
+    res.status(200).json({ product });
   } catch (error) {
     res.status(500).json({ msg: error });
   }
@@ -19,7 +22,9 @@ const getProduct = async (req, res) => {
 // ADD a product
 const AddProduct = async (req, res) => {
   try {
-    res.status(200).json("Add Products");
+    const product = req.body;
+    const result = Product.create(product);
+    res.status(200).json("Product added");
   } catch (error) {
     res.status(500).json({ msg: error });
   }
@@ -27,7 +32,14 @@ const AddProduct = async (req, res) => {
 // UPDATE a product
 const UpdateProduct = async (req, res) => {
   try {
-    res.status(200).json("Update Products");
+    const { id: id } = req.params;
+    const product = req.body;
+    const result = await Product.findByIdAndUpdate({ _id: id }, product, {
+      new: true,
+      runValidators: true,
+      r,
+    });
+    res.status(200).json({ result });
   } catch (error) {
     res.status(500).json({ msg: error });
   }
@@ -35,7 +47,9 @@ const UpdateProduct = async (req, res) => {
 // DELETE A product
 const DeleteProducts = async (req, res) => {
   try {
-    res.status(200).json("delete Product");
+    const { id: id } = req.params;
+    const product = await Product.findByIdAndDelete({ _id: id });
+    res.status(200).json({ product });
   } catch (error) {
     res.status(500).json({ msg: error });
   }
