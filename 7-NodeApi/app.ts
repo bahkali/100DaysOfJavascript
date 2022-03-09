@@ -1,6 +1,8 @@
 import bodyParser from "body-parser";
 import express from "express";
+import { connectDB } from "./db/connect";
 import feedRoutes from "./routes/feed";
+require("dotenv").config();
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -27,6 +29,16 @@ app.use("/feed", feedRoutes);
 // ERROR HANDLER
 
 // Listen
-app.listen(PORT, () => {
-  console.log(`---> Server is listening on port ${PORT}...`);
-});
+const url = process.env.DB_URI || "";
+const start = async () => {
+  try {
+    await connectDB(url);
+    app.listen(PORT, () => {
+      console.log(`---> Server is listening on port ${PORT}...`);
+    });
+  } catch (error) {
+    console.log({ msg: error });
+  }
+};
+
+start();

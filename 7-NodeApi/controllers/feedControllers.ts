@@ -1,41 +1,33 @@
 import { Request, Response } from "express";
+import Post from "../models/feedModels";
 import { validationResult } from "express-validator/check";
 
-export const getPosts = (req: Request, res: Response) => {
+export const getPosts = async (req: Request, res: Response) => {
+  const posts = await Post.find({});
   res.status(200).json({
-    posts: [
-      {
-        _id: "1",
-        title: "First Post",
-        content: "Hello there",
-        imageUrl: "images/cheeseburger.png",
-        creator: {
-          name: "Kaly Bah",
-        },
-        createdAt: new Date(),
-      },
-    ],
+    posts: posts,
   });
 };
 
-export const createPost = (req: Request, res: Response, next: any) => {
+export const createPost = async (req: Request, res: Response, next: any) => {
   const errors = validationResult(req);
+  const { title, content } = req.body;
+  const result = await Post.create({
+    title: title,
+    content: content,
+    imageUrl: "images/cheeseburger.png",
+    creator: { name: "Kaly Bah" },
+  });
+
   if (!errors.isEmpty()) {
     return res.status(422).json({
       message: "Validation failed, entered data is incorrect.",
       errors: errors.array(),
     });
   }
-  const { title, content } = req.body;
   res.status(201).json({
     message: "Post created successfully!",
-    post: {
-      _id: new Date().toISOString(),
-      title: title,
-      content: content,
-      creator: { name: "Kaly Bah" },
-      createdAt: new Date(),
-    },
+    post: result,
   });
 };
 
