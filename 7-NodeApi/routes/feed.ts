@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { getPosts, createPost } from "../controllers/feedControllers";
+import { getPosts, createPost, getPost } from "../controllers/feedControllers";
 import { body } from "express-validator/check";
 
 const router = Router();
@@ -14,6 +14,6 @@ router
     ],
     createPost
   );
-router.route("/post/:id").get().patch().delete();
+router.route("/post/:id").get(getPost).patch().delete();
 
 export default router;

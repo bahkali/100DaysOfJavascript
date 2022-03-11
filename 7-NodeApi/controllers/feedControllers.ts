@@ -1,39 +1,60 @@
 import { Request, Response } from "express";
+
 import Post from "../models/feedModels";
 import { validationResult } from "express-validator/check";
 
 export const getPosts = async (req: Request, res: Response) => {
-  const posts = await Post.find({});
-  res.status(200).json({
-    posts: posts,
-  });
+  try {
+    const posts = await Post.find({});
+    res.status(200).json({
+      posts: posts,
+    });
+  } catch (err) {}
 };
 
 export const createPost = async (req: Request, res: Response, next: any) => {
-  const errors = validationResult(req);
-  const { title, content } = req.body;
-  const result = await Post.create({
-    title: title,
-    content: content,
-    imageUrl: "images/cheeseburger.png",
-    creator: { name: "Kaly Bah" },
-  });
-
-  if (!errors.isEmpty()) {
-    return res.status(422).json({
-      message: "Validation failed, entered data is incorrect.",
-      errors: errors.array(),
+  try {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      const error = new Error("Validation failed, entered data is incorrect.");
+      throw error;
+    }
+    // if (!req.file) {
+    //   const error = new Error("No image provided");
+    //   throw error;
+    // }
+    const { title, content } = req.body;
+    // const imageUrl = req.file.path.replace(/\\\\/g, "/");
+    const result = await Post.create({
+      title: title,
+      content: content,
+      imageUrl: "/images/cheeseburger.png",
+      creator: { name: "Kaly Bah" },
     });
+
+    res.status(201).json({
+      message: "Post created successfully!",
+      post: result,
+    });
+  } catch (err) {
+    console.log(err);
+    next(err);
   }
-  res.status(201).json({
-    message: "Post created successfully!",
-    post: result,
-  });
 };
 
-export const getPost = (req: Request, res: Response) => {
-  const { id: id } = req.params;
-  res.status(200).json({
-    posts: [{ title: "First Post", content: "Hello there" }],
-  });
+export const getPost = async (req: Request, res: Response) => {
+  try {
+    const { id: id } = req.params;
+    const post = await Post.findById({ _id: id });
+    post.imageUrl = post.imageUrl.replace(/\\\\/g, "/");
+    if (!post) {
+      const error = new Error("Could not find post");
+      throw error;
+    }
+    res.status(200).json({
+      post: post,
+    });
+  } catch (err) {
+    console.log({ error: err });
+  }
 };
