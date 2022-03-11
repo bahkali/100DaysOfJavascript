@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getPost = exports.createPost = exports.getPosts = void 0;
+exports.deletePost = exports.updatePost = exports.getPost = exports.createPost = exports.getPosts = void 0;
 const feedModels_1 = __importDefault(require("../models/feedModels"));
 const check_1 = require("express-validator/check");
 const getPosts = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -73,3 +73,40 @@ const getPost = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     }
 });
 exports.getPost = getPost;
+const updatePost = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const errors = (0, check_1.validationResult)(req);
+        if (!errors.isEmpty()) {
+            const error = new Error("Validation failed, entered data is incorrect.");
+            throw error;
+        }
+        const { id: id } = req.params;
+        const { title, content } = req.body;
+        // handle the image url here
+        // Update the database
+        const result = yield feedModels_1.default.findByIdAndUpdate({ _id: id }, {
+            title: title,
+            content: content,
+            imageUrl: "/images/cheeseburger.png",
+            creator: { name: "Kaly Bah" },
+        });
+        res.status(200).json({ message: "Post updated!", post: result });
+    }
+    catch (error) {
+        next(error);
+    }
+});
+exports.updatePost = updatePost;
+const deletePost = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const { id: id } = req.params;
+        const result = yield feedModels_1.default.findByIdAndDelete({ _id: id });
+        res.status(200).json({
+            post: "Post deleted",
+        });
+    }
+    catch (err) {
+        console.log({ error: err });
+    }
+});
+exports.deletePost = deletePost;

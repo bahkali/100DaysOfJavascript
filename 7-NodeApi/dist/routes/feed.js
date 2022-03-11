@@ -11,5 +11,12 @@ router
     (0, check_1.body)("title").trim().isLength({ min: 5 }),
     (0, check_1.body)("content").trim().isLength({ min: 5 }),
 ], feedControllers_1.createPost);
-router.route("/post/:id").get(feedControllers_1.getPost).patch().delete();
+router
+    .route("/post/:id")
+    .get(feedControllers_1.getPost)
+    .put([
+    (0, check_1.body)("title").trim().isLength({ min: 5 }),
+    (0, check_1.body)("content").trim().isLength({ min: 5 }),
+], feedControllers_1.updatePost)
+    .delete(feedControllers_1.deletePost);
 exports.default = router;
