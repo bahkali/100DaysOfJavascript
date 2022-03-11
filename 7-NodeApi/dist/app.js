@@ -16,6 +16,7 @@ const body_parser_1 = __importDefault(require("body-parser"));
 const express_1 = __importDefault(require("express"));
 const connect_1 = require("./db/connect");
 const feed_1 = __importDefault(require("./routes/feed"));
+const auth_1 = __importDefault(require("./routes/auth"));
 const multer_1 = __importDefault(require("multer"));
 const uuidv4_1 = require("uuidv4");
 const path_1 = __importDefault(require("path"));
@@ -54,7 +55,15 @@ app.use((req, res, next) => {
 });
 // ROUTES
 app.use("/feed", feed_1.default);
+app.use("/auth", auth_1.default);
 // ERROR HANDLER
+app.use((error, req, res, next) => {
+    console.log(error);
+    const status = error.statusCode || 500;
+    const message = error.message;
+    const data = error.data;
+    res.status(status).json({ message: message, data: data });
+});
 // Listen
 const url = process.env.DB_URI || "";
 const start = () => __awaiter(void 0, void 0, void 0, function* () {

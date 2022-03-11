@@ -2,6 +2,7 @@ import bodyParser from "body-parser";
 import express from "express";
 import { connectDB } from "./db/connect";
 import feedRoutes from "./routes/feed";
+import authRoutes from "./routes/auth";
 import multer from "multer";
 import { uuid } from "uuidv4";
 import path from "path";
@@ -53,9 +54,16 @@ app.use((req, res, next) => {
 
 // ROUTES
 app.use("/feed", feedRoutes);
+app.use("/auth", authRoutes);
 
 // ERROR HANDLER
-
+app.use((error: any, req: any, res: any, next: any) => {
+  console.log(error);
+  const status = error.statusCode || 500;
+  const message = error.message;
+  const data = error.data;
+  res.status(status).json({ message: message, data: data });
+});
 // Listen
 const url = process.env.DB_URI || "";
 const start = async () => {
