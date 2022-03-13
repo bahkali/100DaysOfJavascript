@@ -15,4 +15,5 @@ router
     (0, check_1.body)("password").trim().isLength({ min: 5 }),
     (0, check_1.body)("name").trim().not().isEmpty(),
 ], authController_1.signup);
+router.route("/login").post(authController_1.login);
 exports.default = router;
